@@ -307,7 +307,7 @@ sub _get_img_data_from_url {
 
     my $response = $self->_get_response_from_url( $url );
 
-    if ( $response->headers->content_type =~ m,text/html,i ) {
+    if ( ($response->headers->content_type // '') =~ m,text/html,i ) {
         $self->log->debug( "Got HTML, so going to look for an image in the DOM tree..." );
 
         my $dom = $response->dom;
