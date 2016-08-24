@@ -1,0 +1,94 @@
+% layout 'default';
+% title 'Presizely';
+<h1 style="text-align: center;">Presizely <sup><small>beta</small></sup></h1>
+
+<div class="row">
+    <div class="column" style="text-align: center;">
+        <img src="/1024x/<%= $image_url %>" class="centered">
+        <p><a href="<%= $image_url %>">Image</a> resized from <%= $image_orig_size %> to a width of 1024 pixels with aspect ratio and quality preserved.</p>
+        <pre><code>http://presizely.no/1024x/<%= $image_url %></code></pre>
+    </div>
+</div>
+
+<div class="row">
+    <div class="column">
+        <h3>Overview</h3>
+        <p>Presizely is an easy-to-use online service for transforming images. The main focus is on resizing/scaling images, but several other types of transformations are also possible.</p>
+        <p>The service is currently under beta testing and should not be used in production environments.</p>
+
+        <h3>Usage</h3>
+
+        <h5>Serve original image as-is</h5>
+        <p>The simplest way of using Presizely is to just hand it the URL to the original image without specifying any transformations.</p>
+        <pre><code>http://presizely.no/http://example.com/image.jpg</code></pre>
+
+        <h5>Auto height (aspect ratio preserved)</h5>
+        <p>One number to the left of an 'x' sets a specific width and calculates the height based on aspect ratio.</p>
+        <pre><code>http://presizely.no/1024x/http://example.com/image.jpg</code></pre>
+
+        <h5>Auto width (aspect ratio preserved)</h5>
+        <p>One number to the right of an 'x' sets a specific height and calculates the width based on aspect ratio.</p>
+        <pre><code>http://presizely.no/x1024/http://example.com/image.jpg</code></pre>
+
+        <h5>Exact width and height</h5>
+        <p>Two numbers separated by an 'x' resizes the image to the exact dimensions specified.</p>
+        <pre><code>http://presizely.no/1024x1024/http://example.com/image.jpg</code></pre>
+
+        <p>You can also resize images based on a ratio. If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50&nbsp;% of its width, with aspect ratio preserved;</p>
+        <pre><code>http://presizely.no/0.5x/http://example.com/image.jpg</code></pre>
+
+        <h5>Rotation</h5>
+        <p>One number to the right of an 'r' rotates the image a specific number of degrees clockwise. Use a negative number to rotate anticlockwise.</p>
+        <pre><code>http://presizely.no/r90/http://example.com/image.jpg</code></pre>
+        <p><strong>NOTE!</strong> The background color for corners is at the moment set to white. It should be possible to choose the color, or transparency, and this will be rectified in a later version.</p>
+
+        <h5>Black and white</h5>
+        <p>Use the 'bw' parameter to make the image black and white.</p>
+        <pre><code>http://presizely.no/bw/http://example.com/image.jpg</code></pre>
+
+        <h5>Flipping</h5>
+        <p>Use the 'fh' and/or 'fv' parameter to flip the image horizontally and/or vertically, respectively.</p>
+        <pre><code>http://presizely.no/fh,fv/http://example.com/image.jpg</code></pre>
+
+        <h5>Quality (JPEG only)</h5>
+        <p>One number to the right of a 'q' changes the quality of the image.</p>
+        <pre><code>http://presizely.no/q75/http://example.com/image.jpg</code></pre>
+
+        <h5>Optimization (JPEG only)</h5>
+        <p>Use the 'o' parameter to optimize the <a href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a> tables. Compared to the other actions, this will have a bigger performance hit, depending on the image size.</p>
+        <pre><code>http://presizely.no/o/http://example.com/image.jpg</code></pre>
+
+        <h5>Cropping</h5>
+        <p><em>Coming soon...</em></p>
+
+        <h5>Drop shadow</h5>
+        <p><em>Coming soon...</em></p>
+
+        <h5>Chaining</h5>
+        <p>It's possible to chain image actions by separating them with a comma. Please note that the actions will <em>not necessarily</em> be performed in the order they are mentioned, <em>but resizing is always performed first</em>.</p>
+        <pre><code>http://presizely.no/1024x,q75,r90/http://example.com/image.jpg</code></pre>
+
+        <h5>Non-image URLs</h5>
+        <p>If Presizely is given a URL to an HTML page, like a news article, it will look for the image representing the page, specifically the <code>og:image</code> and <code>twitter:image</code> meta tags and use the image URL found (if any).</p>
+        <pre><code>http://presizely.no/1024x,q75,r90/http://example.com/sports/article.html</code></pre>
+
+        <h3>Behind the scenes</h3>
+
+        <h5>Caching</h5>
+        <p>Presizely have two cache levels. First, the original image is cached. Second, the processed image (ie. after all the actions have been performed on the image) is cached based on the actions done to it.</p>
+        <p>The two cache levels behaves the same, except that the most frequently accessed images (after transformation) are also stored in an in-memory L1 cache.</p>
+
+        <h5>Limitations</h5>
+        <p>
+            * Original image can't be larger than 32MB.<br>
+            * Only the most popular (...) image formats are supported; JPEG, PNG and GIF are safe bets.<br>
+            * Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
+        </p>
+
+        <h5>Thanks to...</h5>
+        <p>
+            * <a href="http://www.perl.org/">Perl</a><br>
+            * <a href="http://mojolicious.org">Mojolicious</a>
+        </p>
+    </div>
+</div>

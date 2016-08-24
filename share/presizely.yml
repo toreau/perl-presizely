@@ -1,0 +1,41 @@
+app:
+    name: Presizely
+    secrets:
+        - f44fCbehMrCxwz2qCMBsL7foWE9sYf6Oj35GTVhxbHX82P3ACxrhJFSsHZzyUvRh
+
+cache:
+    primary:
+        driver: File
+        root_dir: /tmp/presizely
+        expires_in: 1 year
+        l1_cache:
+            driver: RawMemory
+            global: 1
+            max_size: 67108864 # 64MB
+
+    secondary:
+        driver: File
+        root_dir: /tmp/presizely
+        expires_in: 1 year
+
+allowed_hosts:
+    # aursand.no:
+    # smooth-storage.aptoma.no:
+
+ua:
+    connect_timeout: 15
+    inactivity_timeout: 15
+    request_timeout: 30
+    max_redirects: 2
+    max_connections: 16
+
+imager:
+    scaling_qtype: normal
+    quality: 90
+    rotation_bg_color: white
+
+output:
+    cache_control:
+        max_age: 86400
+    trim_html: 1 # true/false
+    gzip_compress: 1 # true/false
