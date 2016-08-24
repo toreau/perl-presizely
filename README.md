@@ -27,7 +27,7 @@ http://127.0.0.1:3000/http://example.com/image.jpg
 
 ### Auto height (aspect ratio preserved)
 
-One number to the left of an 'x' sets a specific width and calculates the height based on aspect ratio.
+One number to the left of an `x` sets a specific width and calculates the height based on aspect ratio.
 
 ```
 http://127.0.0.1:3000/1024x/http://example.com/image.jpg
@@ -35,7 +35,7 @@ http://127.0.0.1:3000/1024x/http://example.com/image.jpg
 
 ### Auto width (aspect ratio preserved)
 
-One number to the right of an 'x' sets a specific height and calculates the width based on aspect ratio.
+One number to the right of an `x` sets a specific height and calculates the width based on aspect ratio.
 
 ```
 http://127.0.0.1:3000/x1024/http://example.com/image.jpg
@@ -43,7 +43,7 @@ http://127.0.0.1:3000/x1024/http://example.com/image.jpg
 
 ### Exact width and height
 
-Two numbers separated by an 'x' resizes the image to the exact dimensions specified.
+Two numbers separated by an `x` resizes the image to the exact dimensions specified.
 
 ```
 http://127.0.0.1:3000/1024x1024/http://example.com/image.jpg
@@ -57,7 +57,7 @@ http://127.0.0.1:3000/0.5x/http://example.com/image.jpg
 
 ### Rotation
 
-One number to the right of an 'r' rotates the image a specific number of degrees clockwise. Use a negative number to rotate anticlockwise.
+One number to the right of an `r` rotates the image a specific number of degrees clockwise. Use a negative number to rotate anticlockwise.
 
 ```
 http://127.0.0.1:3000/r90/http://example.com/image.jpg
@@ -67,7 +67,7 @@ http://127.0.0.1:3000/r90/http://example.com/image.jpg
 
 ### Black and white
 
-Use the 'bw' parameter to make the image black and white.
+Use the `bw` parameter to make the image black and white.
 
 ```
 http://127.0.0.1:3000/bw/http://example.com/image.jpg
@@ -75,7 +75,7 @@ http://127.0.0.1:3000/bw/http://example.com/image.jpg
 
 ### Flipping
 
-Use the 'fh' and/or 'fv' parameter to flip the image horizontally and/or vertically, respectively.
+Use the `fh` and/or `fv` parameter to flip the image horizontally and/or vertically, respectively.
 
 ```
 http://127.0.0.1:3000/fh,fv/http://example.com/image.jpg
@@ -83,7 +83,7 @@ http://127.0.0.1:3000/fh,fv/http://example.com/image.jpg
 
 ### Quality (JPEG only)
 
-One number to the right of a 'q' changes the quality of the image.
+One number to the right of a `q` changes the quality of the image.
 
 ```
 http://127.0.0.1:3000/q75/http://example.com/image.jpg
@@ -91,7 +91,7 @@ http://127.0.0.1:3000/q75/http://example.com/image.jpg
 
 ### Optimization (JPEG only)
 
-Use the 'o' parameter to optimize the Huffman coding tables. Compared to the other actions, this will have a bigger performance hit, depending on the image size.
+Use the `o` parameter to optimize the Huffman coding tables. Compared to the other actions, this will have a bigger performance hit, depending on the image size.
 
 ```
 http://127.0.0.1:3000/o/http://example.com/image.jpg
