@@ -6,19 +6,6 @@ Presizely is an easy-to-use online service for transforming images. The main foc
 
 **The service is currently under beta testing and should not be used in production environments.**
 
-## Try it
-
-### Docker
-
-```
-$ git clone git@github.com:toreau/Presizely.git
-$ cd Presizely
-$ docker build -t presizely .
-$ docker run -p 3000:3000 presizely
-```
-
-Then access the service at `http://127.0.0.1:3000`.
-
 ## Usage
 
 ### Serve original image as-is
