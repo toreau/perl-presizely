@@ -139,6 +139,8 @@ The two cache levels behaves the same, except that the most frequently accessed 
 
 * [Perl](https://www.perl.org/)
 * [Mojolicious](http://mojolicious.org/)
+* [Imager](https://metacpan.org/pod/Imager)
+* ...and many other excellent [CPAN](https://metacpan.org/) modules!
 
 ## Copyright
 
