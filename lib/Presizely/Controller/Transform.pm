@@ -296,6 +296,8 @@ sub _get_response_from_url {
     my $t0 = [ gettimeofday ];
 
     my $response = $self->ua->get( $url )->res;
+    use Data::Dumper;
+    print STDERR Dumper( $response->error );
     $self->log->debug( "Result of GETting '" . $url . "': " . $response->code . ' ' . $response->message . ' (' . tv_interval( $t0, [gettimeofday] ) . ' seconds)' );
 
     return $response;
