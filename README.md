@@ -8,6 +8,8 @@ Presizely is an easy-to-use online service for transforming images. The main foc
 
 ## Try it
 
+### Docker
+
 ```
 $ git clone git@github.com:toreau/Presizely.git
 $ cd Presizely
@@ -145,3 +147,4 @@ The two cache levels behaves the same, except that the most frequently accessed 
 ## Copyright
 
 Tore Aursand © 2016, ALL RIGHTS RESERVED
+
