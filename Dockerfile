@@ -15,13 +15,9 @@ RUN cpanm Config::JFDI \
           YAML::XS \
           IO::Socket::SSL
 
-RUN mkdir -p /app
+COPY . /app/Presizely
 
-WORKDIR /app
-
-RUN wget https://github.com/toreau/Presizely/archive/master.zip && unzip master.zip && rm master.zip
-
-WORKDIR /app/Presizely-master
+WORKDIR /app/Presizely
 
 EXPOSE 3000
 
