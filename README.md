@@ -4,6 +4,8 @@
 
 Presizely is an easy-to-use online service for transforming images. The main focus is on resizing/scaling images, but several other types of transformations are also possible.
 
+**The service is currently under beta testing and should not be used in production environments.**
+
 ## Try it
 
 ```
