@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libpng12-0 \
     libssl-dev \
+    libtiff5 \
+    libtiff5-dev \
     openssl && apt-get clean
 
 RUN cpanm \
