@@ -106,7 +106,7 @@ http://127.0.0.1:3000/1024x,q75,r90/http://example.com/image.jpg
 
 ### Non-image URLs
 
-If Presizely is given a URL to an HTML page, like a news article, it will look for the image representing the page, specifically the og:image and twitter:image meta tags and use the image URL found (if any).
+If Presizely is given a URL to an HTML page, like a news article, it will look for the image representing the page, specifically the `og:image` and `twitter:image` meta tags and use the image URL found (if any).
 
 ```
 http://127.0.0.1:3000/1024x,q75,r90/http://example.com/sports/article.html
@@ -134,4 +134,3 @@ The two cache levels behaves the same, except that the most frequently accessed 
 ## Copyright
 
 Tore Aursand © 2016, ALL RIGHTS RESERVED
-

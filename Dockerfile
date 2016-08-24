@@ -1,19 +1,31 @@
 FROM perl:latest
 
-RUN apt-get update && apt-get install -y build-essential cpanminus libjpeg-dev libjpeg62-turbo libjpeg62-turbo-dev libpng-dev libpng12-0 libgif-dev libgif4 wget unzip openssl libssl-dev && apt-get clean
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cpanminus \
+    libgif-dev \
+    libgif4 \
+    libjpeg-dev \
+    libjpeg62-turbo \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libpng12-0 \
+    libssl-dev \
+    openssl && apt-get clean
 
-RUN cpanm Config::JFDI \
-          File::Share \
-          FindBin \
-          Moose \
-          namespace::autoclean \
-          Mojolicious \
-          IO::Compress::Gzip \
-          CHI \
-          Digest::SHA \
-          Imager \
-          YAML::XS \
-          IO::Socket::SSL
+RUN cpanm \
+    CHI \
+    Config::JFDI \
+    Digest::SHA \
+    File::Share \
+    FindBin \
+    Imager \
+    IO::Compress::Gzip \
+    IO::Socket::SSL \
+    Mojolicious \
+    Moose \
+    namespace::autoclean \
+    YAML::XS
 
 COPY . /app/Presizely
 
