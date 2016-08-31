@@ -80,7 +80,7 @@
 
         <h5>Limitations</h5>
         <p>
-            * Original image can't be larger than 32MB.<br>
+            * Original image can't be larger than 64MB, but this can be changed by setting the <code>MOJO_MAX_MESSAGE_SIZE</code> configuration variable to the max. number of bytes you want.<br>
             * Only the most popular (...) image formats are supported; JPEG, PNG and GIF are safe bets.<br>
             * Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
         </p>
@@ -88,7 +88,9 @@
         <h5>Thanks to...</h5>
         <p>
             * <a href="http://www.perl.org/">Perl</a><br>
-            * <a href="http://mojolicious.org">Mojolicious</a>
+            * <a href="http://mojolicious.org">Mojolicious</a><br>
+            * <a href="https://metacpan.org/pod/Imager">Imager</a><br>
+            * ...and many other excellent <a href="https://metacpan.org/">CPAN</a> modules!
         </p>
     </div>
 </div>
