@@ -131,7 +131,7 @@ The two cache levels behaves the same, except that the most frequently accessed 
 
 ### Limitations
 
-* Original image can't be larger than 32MB, but this can be changed by setting the `MOJO_MAX_MESSAGE_SIZE` environment variable to the max. number of bytes you want.
+* Original image can't be larger than 64MB, but this can be changed by setting the `MOJO_MAX_MESSAGE_SIZE` configuration variable to the max. number of bytes you want.
 * Only the most popular (...) image formats are supported; JPEG, PNG and GIF are safe bets.
 * Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
 
