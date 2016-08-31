@@ -1,5 +1,7 @@
 FROM perl:latest
 
+ENV DEBIAN_FRONTEND=noninteractive LANG=en_US.UTF-8 LC_ALL=C.UTF-8 LANGUAGE=en_US.UTF-8
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     cpanminus \
@@ -13,21 +15,21 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libtiff5 \
     libtiff5-dev \
-    openssl && apt-get clean
+    openssl \
+    && apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 RUN cpanm \
     CHI \
-    Config::JFDI \
     Digest::SHA \
-    File::Share \
-    FindBin \
     Imager \
     IO::Compress::Gzip \
     IO::Socket::SSL \
     Mojolicious \
+    Mojolicious::Plugin::YamlConfig \
     Moose \
     namespace::autoclean \
-    YAML::XS
+    YAML::XS \
+    && rm -rf ~/.cpanm/
 
 COPY . /app/Presizely
 

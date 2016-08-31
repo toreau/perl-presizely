@@ -8,15 +8,7 @@ use Digest::SHA qw( sha384_hex );
 use Imager;
 use Mojo::URL;
 use Mojo::UserAgent;
-use Presizely::Config;
 use Time::HiRes qw( gettimeofday tv_interval );
-
-has 'config' => (
-    isa => 'HashRef',
-    is => 'ro',
-    lazy => 1,
-    default => sub { Presizely::Config->new->config },
-);
 
 has 'ua' => (
     isa => 'Mojo::UserAgent',

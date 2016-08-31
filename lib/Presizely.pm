@@ -2,34 +2,51 @@ package Presizely;
 use Mojo::Base 'Mojolicious';
 
 use IO::Compress::Gzip 'gzip';
-use Presizely::Config;
 use Presizely::Log;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub startup {
     my $self = shift;
 
-    # Set ENV variables.
-    $ENV{MOJO_MAX_MESSAGE_SIZE} = 64 * ( 1024 * 1024 ); # 64MB
-
     # Setup helpers, routes and hooks.
+    $self->_setup_config;
     $self->_setup_helpers;
     $self->_setup_routes;
     $self->_setup_hooks;
 
-    # Assign this application's secrets.
-    $self->secrets( $self->config->{secrets} );
+    # Check if config was loaded.
+    unless ( keys %{$self->config} ) {
+        $self->log->fatal( 'Invalid configuration!' );
+        die;
+    }
 
-    # Done.
-    $self->log->debug( 'APPLICATION STARTED UP!' );
+    # Set ENV variables.
+    $ENV{MOJO_MAX_MESSAGE_SIZE} = $self->config->{ua}->{MOJO_MAX_MESSAGE_SIZE};
+
+    # Assign this application's secrets.
+    $self->secrets( $self->config->{app}->{secrets} );
+
+    # Done!
+    $self->log->debug( 'Application started!' );
+}
+
+sub _setup_config {
+    my $self = shift;
+
+    my $config = $self->plugin(yaml_config => {
+        file      => 'share/presizely.yml',
+        stash_key => 'conf',
+        class     => 'YAML::XS'
+    });
+
+    $self->{config} = $config;
 }
 
 sub _setup_helpers {
     my $self = shift;
 
-    $self->helper( config => sub { Presizely::Config->new->config } );
-    $self->helper( log    => sub { Presizely::Log->new            } );
+    $self->helper( log => sub { Presizely::Log->new } );
 }
 
 sub _setup_routes {

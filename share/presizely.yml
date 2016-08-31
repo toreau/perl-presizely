@@ -18,7 +18,7 @@ cache:
         root_dir: /tmp/presizely
         expires_in: 1 year
 
-allowed_hosts:
+# allowed_hosts:
     # aursand.no:
     # smooth-storage.aptoma.no:
 
@@ -28,6 +28,7 @@ ua:
     request_timeout: 30
     max_redirects: 2
     max_connections: 16
+    MOJO_MAX_MESSAGE_SIZE: 67108864
 
 imager:
     scaling_qtype: normal
