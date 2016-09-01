@@ -116,6 +116,13 @@ sub index {
                 );
             }
 
+            unless ( $imager ) {
+                return $self->render(
+                    status => 500,
+                    text   => "Failed to read image; probably unsupported image format...",
+                );
+            }
+
             my $t0 = [ gettimeofday ];
 
             my $img_format = $imager->tags( name => 'i_format' );
