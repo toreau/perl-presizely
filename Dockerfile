@@ -28,6 +28,7 @@ RUN cpanm \
     Mojolicious::Plugin::YamlConfig \
     Moose \
     namespace::autoclean \
+    Text::Glob \
     YAML::XS \
     && rm -rf ~/.cpanm/
 

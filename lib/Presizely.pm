@@ -4,7 +4,7 @@ use Mojo::Base 'Mojolicious';
 use IO::Compress::Gzip 'gzip';
 use Presizely::Log;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub startup {
     my $self = shift;

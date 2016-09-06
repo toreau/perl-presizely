@@ -8,6 +8,7 @@ use Digest::SHA qw( sha384_hex );
 use Imager;
 use Mojo::URL;
 use Mojo::UserAgent;
+use Text::Glob qw( match_glob );
 use Time::HiRes qw( gettimeofday tv_interval );
 
 has 'ua' => (
@@ -56,10 +57,20 @@ sub index {
     }
 
     # Is the image host allowed?
-    if ( my $allowed_hosts = $self->config->{allowed_hosts} ) {
-        my $host = Mojo::URL->new( $url )->host;
+    my $allowed_hosts = $self->config->{allowed_hosts} || [];
 
-        unless ( exists $allowed_hosts->{$host} ) {
+    if ( scalar(@{$allowed_hosts}) ) {
+        my $host    = Mojo::URL->new( $url )->host;
+        my $allowed = 0;
+
+        foreach ( @{$allowed_hosts} ) {
+            if ( match_glob($_, $host) ) {
+                $allowed = 1;
+                last;
+            }
+        }
+
+        unless ( $allowed ) {
             return $self->render(
                 status => 500,
                 text   => "Image host '" . $host . "' is not allowed!",
@@ -67,7 +78,7 @@ sub index {
         }
     }
 
-    # Sort the params for better cache key reliability.
+    # Sort the params for a better cache key.
     $params = join( ',', sort split(/\s*,\s*/, $params) );
 
     # If the image is in the cache, with the parameters mentioned, return it
