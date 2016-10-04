@@ -85,6 +85,18 @@
             * Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
         </p>
 
+        <h5>Performance</h5>
+        <p>
+        Presizely's performance depends primarily on the hardware (specifically the CPU) it runs on when it downloads and transforms an image. Once an image is downloaded
+        and transformed, it's cached, so performance shouldn't be a problem. However, if you cache your images on disk, IO can be an issue. Presizely therefore does all the
+        caching in the background, so that the client won't have to wait for the transformed image to be delivered.
+        </p>
+
+        <p>
+        On my server, an Intel Xeon E3-1246 v3@3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second <i>after</i> the image
+        has been cached. Your mileage may wary, of course.
+        </p>
+
         <h5>Thanks to...</h5>
         <p>
             * <a href="http://www.perl.org/">Perl</a><br>
