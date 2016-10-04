@@ -141,7 +141,7 @@ Presizely's performance depends primarily on the hardware (specifically the CPU)
 transformed, it's cached, so performance shouldn't be a problem. However, if you cache your images on disk, IO can be an issue. Presizely therefore does all the caching
 in the background, so that the client won't have to wait for the transformed image to be delivered.
 
-On my server, an Intel Xeon E3-1246 v3@3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second *after* the image has been
+On my server, an Intel Xeon E3-1246 3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second *after* the image has been
 cached. Your mileage may wary, of course.
 
 ## Thanks to...

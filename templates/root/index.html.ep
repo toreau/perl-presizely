@@ -93,7 +93,7 @@
         </p>
 
         <p>
-        On my server, an Intel Xeon E3-1246 v3@3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second <i>after</i> the image
+        On my server, an Intel Xeon E3-1246 3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second <i>after</i> the image
         has been cached. Your mileage may wary, of course.
         </p>
 
