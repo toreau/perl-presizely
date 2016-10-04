@@ -38,6 +38,4 @@ WORKDIR /app/Presizely
 
 EXPOSE 3000
 
-ENV MOJO_MAX_MESSAGE_SIZE=33554432
-
 CMD ./script/presizely prefork -m production -w 32 -c 2
