@@ -97,14 +97,6 @@ Use the `o` parameter to optimize the Huffman coding tables. Compared to the oth
 http://127.0.0.1:3000/o/http://example.com/image.jpg
 ```
 
-### Cropping
-
-*Coming soon...*
-
-### Drop shadow
-
-*Coming soon...*
-
 ### Chaining
 
 It's possible to chain image actions by separating them with a comma. Please note that the actions will not necessarily be performed in the order they are mentioned, but resizing is always performed first.
@@ -121,6 +113,14 @@ If Presizely is given a URL to an HTML page, like a news article, it will look f
 http://127.0.0.1:3000/1024x,q75,r90/http://example.com/sports/article.html
 ```
 
+### Cropping
+
+*Coming soon...*
+
+### Drop shadow
+
+*Coming soon...*
+
 ## Behind the scenes
 
 ### Caching
@@ -134,6 +134,15 @@ The two cache levels behaves the same, except that the most frequently accessed 
 * Original image can't be larger than 64MB, but this can be changed by setting the `MOJO_MAX_MESSAGE_SIZE` configuration variable to the max. number of bytes you want.
 * Only the most popular (...) image formats are supported; JPEG, PNG and GIF are safe bets.
 * Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
+
+## Performance
+
+Presizely's performance depends primarily on the hardware (specifically the CPU) it runs on when it downloads and transforms an image. Once an image is downloaded and
+transformed, it's cached, so performance shouldn't be a problem. However, if you cache your images on disk, IO can be an issue. Presizely therefore does all the caching
+in the background, so that the client won't have to wait for the transformed image to be delivered.
+
+On my server, an Intel Xeon E3-1246 v3@3.50GHz, with Presizely set up to run with 16 workers, it can easily handle 2,500 requests per second *after* the image has been
+cached. Your mileage may wary, of course.
 
 ## Thanks to...
 
