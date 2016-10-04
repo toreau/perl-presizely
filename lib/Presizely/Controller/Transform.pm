@@ -10,6 +10,7 @@ use Mojo::URL;
 use Mojo::UserAgent;
 use Text::Glob qw( match_glob );
 use Time::HiRes qw( gettimeofday tv_interval );
+use Mojo::IOLoop::Subprocess;
 
 has 'ua' => (
     isa => 'Mojo::UserAgent',
@@ -57,37 +58,26 @@ sub index {
     }
 
     # Is the image host allowed?
-    my $allowed_hosts = $self->config->{allowed_hosts} || [];
+    my $host = Mojo::URL->new( $url )->host;
 
-    if ( scalar(@{$allowed_hosts}) ) {
-        my $host    = Mojo::URL->new( $url )->host;
-        my $allowed = 0;
-
-        foreach ( @{$allowed_hosts} ) {
-            if ( match_glob($_, $host) ) {
-                $allowed = 1;
-                last;
-            }
-        }
-
-        unless ( $allowed ) {
-            return $self->render(
-                status => 500,
-                text   => "Image host '" . $host . "' is not allowed!",
-            );
-        }
+    unless ( $self->_host_is_allowed($host) ) {
+        return $self->render(
+            status => 500,
+            text   => "Image host '" . $host . "' is not allowed!",
+        );
     }
 
     # Sort the params for a better cache key.
-    $params = join( ',', sort split(/\s*,\s*/, $params) );
+    $params   = join( ',', sort split(/\s*,\s*/, $params) );
+    $params //= 'none';
 
     # If the image is in the cache, with the parameters mentioned, return it
     # immediately.
     my $primary_cache_key = Digest::SHA::sha384_hex( $params . '_' . $url );
     my $img_data          = $self->primary_cache->get( $primary_cache_key );
 
-    if ( defined $img_data ) {
-        $self->log->debug( "Retrieved '" . $url . "' (params: " . ($params // 'none') . ") from the primary cache; returning it ASAP!" );
+    if ( $img_data ) {
+        $self->log->debug( "Retrieved '" . $url . "' (params: " . $params . ") from the primary cache; returning it ASAP!" );
 
         return $self->_render_image( $img_data, $url );
     }
@@ -97,26 +87,41 @@ sub index {
         my $secondary_cache_key = Digest::SHA::sha384_hex( '_' . $url );
 
         if ( $img_data = $self->secondary_cache->get($secondary_cache_key) ) {
-            $self->log->debug( "Retrieved '" . $url . "' (params: " . ($params // 'none') . ") from the secondary cache!" );
+            $self->log->debug( "Retrieved '" . $url . "' (params: " . $params . ") from the secondary cache!" );
         }
         else {
-            $img_data = $self->_get_img_data_from_url( $url ) || return $self->render(
-                status => 500,
-                text   => "Failed to retrieve data from the image host for '" . $url . "'!",
-            );
+            $img_data->{image} = $self->_get_img_data_from_url( $url );
 
-            $self->log->debug( "Storing '" . $url . "' (params: " . ($params // 'none') . ") in the secondary cache!" );
-            $self->secondary_cache->set( $secondary_cache_key, $img_data );
+            unless ( $img_data ) {
+                return $self->render(
+                    status => 500,
+                    text   => "Failed to retrieve data from the image host for '" . $url . "'!",
+                );
+            }
+
+            # Cache the image. This is a done in a subprocess in case the cache
+            # backend (like a file system) is slow.
+            Mojo::IOLoop->subprocess(
+                sub {
+                    $self->log->debug( "Storing '" . $url . "' (params: " . ($params // 'none') . ") in the secondary cache!" );
+                    $self->secondary_cache->set( $secondary_cache_key, $img_data );
+                },
+
+                sub {
+                    # No need to do anything
+                },
+            );
         }
 
         # Process the image, if necessary.
         if ( my $jobs = $self->_get_jobs_from_param_str($params) ) {
             my $imager = eval {
-                Imager->new( data => $img_data );
+                Imager->new( data => $img_data->{image} );
             };
 
-            if ( $@ ) {
-                # Delete from the secondary cache.
+            if ( $@ || !$imager ) {
+                # Delete from caches.
+                $self->primary_cache->remove( $primary_cache_key );
                 $self->secondary_cache->remove( $secondary_cache_key );
 
                 # TODO: Find a way to check if image format is supported
@@ -127,16 +132,15 @@ sub index {
                 );
             }
 
-            unless ( $imager ) {
-                return $self->render(
-                    status => 500,
-                    text   => "Failed to read image; probably unsupported image format...",
-                );
-            }
-
             my $t0 = [ gettimeofday ];
 
-            my $img_format = $imager->tags( name => 'i_format' );
+            # Detect the image format.
+            unless ( $img_data->{format} = $imager->tags(name => 'i_format') ) {
+                return $self->render(
+                    status => 500,
+                    text   => "Failed to detect the image's format!",
+                );
+            }
 
             # Resize?
             if ( my $resize = $jobs->{resize} ) {
@@ -157,12 +161,12 @@ sub index {
 
             if ( my $q = $jobs->{quality} ) {
                 if ( $q >= 10 && $q <= 100 ) {
-                    if ( $img_format eq 'jpeg' ) {
+                    if ( $img_data->{format} eq 'jpeg' ) {
                         $self->log->debug( "Setting image quality to " . $q );
                         $quality = $q;
                     }
                     else {
-                        $self->log->warn( "Can't change quality for '" . $img_format . "' images; skipping this action!" );
+                        $self->log->warn( "Can't change quality for '" . $img_data->{format} . "' images; skipping this action!" );
                     }
                 }
             }
@@ -181,19 +185,19 @@ sub index {
             my $optimize = 0;
 
             if ( my $o = $jobs->{optimize} ) {
-                if ( $img_format eq 'jpeg' ) {
+                if ( $img_data->{format} eq 'jpeg' ) {
                     $self->log->debug( 'Optimizing image!' );
                     $optimize = 1;
                 }
                 else {
-                    $self->log->warn( "Can't optimize '" . $img_format . "' images; skipping this action!" );
+                    $self->log->warn( "Can't optimize '" . $img_data->{format} . "' images; skipping this action!" );
                 }
             }
 
             # Done!
             my @options = (
-                data => \$img_data,
-                type => $img_format,
+                data => \$img_data->{image},
+                type => $img_data->{format},
             );
 
             push( @options, jpegquality   => $quality ) if ( $quality  );
@@ -214,10 +218,19 @@ sub index {
             $self->log->debug( "Transformed the image in " . tv_interval( $t0, [gettimeofday] ) . " seconds!" );
         }
 
-        # Cache the image.
-        if ( defined $img_data && length $img_data ) {
-            $self->log->debug( "Storing the transformed '" . $url . "' in the primary cache!" );
-            $self->primary_cache->set( $primary_cache_key, $img_data );
+        # Cache the image. This is a done in a subprocess in case the cache
+        # backend (like a file system) is slow.
+        if ( $img_data ) {
+            Mojo::IOLoop->subprocess(
+                sub {
+                    $self->log->debug( "Storing the transformed '" . $url . "' in the primary cache!" );
+                    $self->primary_cache->set( $primary_cache_key, $img_data );
+                },
+
+                sub {
+                    # No need to do anything
+                },
+            );
         }
     }
 
@@ -342,6 +355,29 @@ sub _get_img_data_from_url {
     return ( defined $response ) ? $response->body : undef;
 }
 
+sub _host_is_allowed {
+    my $self = shift;
+    my $host = shift;
+
+    my $allowed_hosts = $self->config->{allowed_hosts} || [];
+
+    if ( scalar(@{$allowed_hosts}) ) {
+        my $allowed = 0;
+
+        foreach ( @{$allowed_hosts} ) {
+            if ( match_glob($_, $host) ) {
+                $allowed = 1;
+                last;
+            }
+        }
+
+        return $allowed;
+    }
+    else {
+        return 1;
+    }
+}
+
 sub _render_image {
     my $self       = shift;
     my $img_data   = shift;
@@ -357,8 +393,8 @@ sub _render_image {
     # Output image.
     return $self->render(
         status => 200,
-        format => 'binary',
-        data   => $img_data,
+        format => $img_data->{format},
+        data   => $img_data->{image},
     );
 }
 

@@ -4,7 +4,17 @@ use Mojo::Base 'Mojolicious';
 use IO::Compress::Gzip 'gzip';
 use Presizely::Log;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
+
+# TODO: hmac signatures.
+# TODO: Better "allowed hosts" functionality.
+# TODO: Consider Etag.
+# TODO: Allow _local configuration files.
+# TODO: Refactor the Transform controller.
+# SOLVED: Cache transformed images after they have been delivered to the client.
+# SOLVED: Send correct Content-Type.
+# SOLVED: Max. cache size setting; see CHI's discard policy. (This can be set
+#         in the configuration file with the 'max_size' parameter.)
 
 sub startup {
     my $self = shift;
@@ -16,6 +26,7 @@ sub startup {
     $self->_setup_hooks;
 
     # Check if config was loaded.
+    # TODO: Better configuration checking.
     unless ( keys %{$self->config} ) {
         $self->log->fatal( 'Invalid configuration!' );
         die;

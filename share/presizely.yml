@@ -8,6 +8,7 @@ app:
 #     - '*.example.com'
 
 cache:
+    # Images _after_ transformations are cached here.
     primary:
         driver: File
         root_dir: /tmp/presizely
@@ -17,6 +18,7 @@ cache:
             global: 1
             max_size: 67108864 # 64MB
 
+    # Images _before_ transformations are cached here.
     secondary:
         driver: File
         root_dir: /tmp/presizely
