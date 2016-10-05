@@ -2,6 +2,10 @@ FROM perl:latest
 
 ENV DEBIAN_FRONTEND=noninteractive LANG=en_US.UTF-8 LC_ALL=C.UTF-8 LANGUAGE=en_US.UTF-8
 
+WORKDIR /root
+
+COPY cpanfile .
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     cpanminus \
@@ -18,25 +22,21 @@ RUN apt-get update && apt-get install -y \
     openssl \
     && apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-RUN cpanm \
-    CHI \
-    Digest::SHA \
-    Imager \
-    Image::Size \
-    IO::Compress::Gzip \
-    IO::Socket::SSL \
-    Mojolicious \
-    Mojolicious::Plugin::YamlConfig \
-    Moose \
-    namespace::autoclean \
-    Text::Glob \
-    YAML::XS \
-    && rm -rf ~/.cpanm/
+# Default options for cpanm
+ENV PERL_CPANM_OPT --quiet --no-man-pages --skip-satisfied
 
-COPY . /app/Presizely
+# Install third party deps
+RUN cpanm --notest --installdeps .
 
-WORKDIR /app/Presizely
+# Install internal deps
+RUN cpanm --notest --with-feature=own --installdeps .
+
+# Bust the cache and reinstall internal deps
+ADD https://www.random.org/strings/?num=16&len=16&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new /tmp/CACHEBUST
+RUN cpanm --with-feature=own --reinstall --installdeps .
+
+COPY . .
 
 EXPOSE 3000
 
-CMD ./script/presizely prefork -m production -w 32 -c 2
+CMD ./script/presizely prefork -m production -w 16 -c 2

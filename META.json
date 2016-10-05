@@ -55,6 +55,7 @@
             "Mojolicious::Plugin::YamlConfig" : "0",
             "Moose" : "0",
             "Text::Glob" : "0",
+            "Time::HiRes" : "0",
             "YAML::XS" : "0",
             "namespace::autoclean" : "0",
             "perl" : "5.010001"
@@ -79,4 +80,3 @@
    ],
    "x_serialization_backend" : "Cpanel::JSON::XS version 3.0217"
 }
-

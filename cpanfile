@@ -7,9 +7,9 @@ requires 'Mojolicious';
 requires 'Mojolicious::Plugin::YamlConfig';
 requires 'Moose';
 requires 'Text::Glob';
+requires 'Time::HiRes';
 requires 'YAML::XS';
 requires 'namespace::autoclean';
-requires 'perl', '5.010001';
 
 on build => sub {
     requires 'ExtUtils::MakeMaker', '6.59';
