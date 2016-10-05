@@ -38,7 +38,7 @@ imager:
     rotation_bg_color: white
 
 output:
-    # cache_control:
-    #     max_age: 86400
+    cache_control:
+        max_age: 86400
     trim_html: 1 # true/false
     gzip_compress: 1 # true/false
