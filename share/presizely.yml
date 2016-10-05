@@ -13,6 +13,7 @@ cache:
         driver: File
         root_dir: /tmp/presizely
         expires_in: 1 year
+        # Most frequently used images are cached in memory (if wanted to).
         l1_cache:
             driver: RawMemory
             global: 1
