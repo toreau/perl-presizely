@@ -4,6 +4,8 @@ use Mojo::Base 'Mojolicious';
 use IO::Compress::Gzip 'gzip';
 use Presizely::Log;
 
+# ABSTRACT: Easy-to-use online service for transforming images.
+
 our $VERSION = '0.05';
 
 # TODO: hmac signatures.
