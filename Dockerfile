@@ -22,6 +22,7 @@ RUN cpanm \
     CHI \
     Digest::SHA \
     Imager \
+    Image::Size \
     IO::Compress::Gzip \
     IO::Socket::SSL \
     Mojolicious \
