@@ -22,6 +22,10 @@ my @tests = (
         path         => '/1024x/http://aursand.no/sneakers.png',
         status_is    => 200,
     },
+    {
+        path         => '/http://aursand.no/sneakers.png',
+        status_is    => 200,
+    },
 );
 
 foreach ( @tests ) {

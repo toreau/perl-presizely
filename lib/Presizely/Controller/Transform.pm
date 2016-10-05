@@ -383,10 +383,12 @@ sub _render_image {
     my $img_data   = shift;
     my $url        = shift;
 
-    # Cache control?
+    # Cache control? Default is NO caching.
+    $self->res->headers->cache_control( 'private, max-age=0, no-cache' );
+
     if ( my $cache_control = $self->config->{output}->{cache_control} ) {
         if ( my $max_age = $cache_control->{max_age} ) {
-            $self->res->headers->cache_control( 'max-age=' . $max_age );
+            $self->res->headers->cache_control( 'public, max-age=' . $max_age );
         }
     }
 
