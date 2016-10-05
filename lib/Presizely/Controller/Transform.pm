@@ -390,6 +390,14 @@ sub _render_image {
         }
     }
 
+    # If we're missing the image's format, we need to retrieve it again.
+    # TODO: This happens only (?) when no transformations are done, i.e.
+    #       forwarding the original picture. See if it can be done elsewhere.
+    unless ( $img_data->{format} ) {
+        my $imager = Imager->new( data => $img_data->{image} );
+        $img_data->{format} = $imager->tags( name => 'i_format' );
+    }
+
     # Output image.
     return $self->render(
         status => 200,
