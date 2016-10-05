@@ -1,15 +1,18 @@
 requires 'CHI';
+requires 'Config::JFDI';
 requires 'Digest::SHA';
+requires 'File::Share';
+requires 'FindBin';
 requires 'IO::Compress::Gzip';
 requires 'IO::Socket::SSL';
 requires 'Imager';
 requires 'Mojolicious';
 requires 'Mojolicious::Plugin::YamlConfig';
 requires 'Moose';
+requires 'namespace::autoclean';
 requires 'Text::Glob';
 requires 'Time::HiRes';
 requires 'YAML::XS';
-requires 'namespace::autoclean';
 
 on build => sub {
     requires 'ExtUtils::MakeMaker', '6.59';

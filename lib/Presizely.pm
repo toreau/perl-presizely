@@ -2,6 +2,7 @@ package Presizely;
 use Mojo::Base 'Mojolicious';
 
 use IO::Compress::Gzip 'gzip';
+use Presizely::Config;
 use Presizely::Log;
 
 # ABSTRACT: Easy-to-use online service for transforming images.
@@ -13,6 +14,7 @@ our $VERSION = '0.05';
 # TODO: Consider Etag.
 # TODO: Allow _local configuration files.
 # TODO: Refactor the Transform controller.
+# TODO: Make "everything" non-blocking.
 # SOLVED: Cache transformed images after they have been delivered to the client.
 # SOLVED: Send correct Content-Type.
 # SOLVED: Max. cache size setting; see CHI's discard policy. (This can be set
@@ -47,13 +49,7 @@ sub startup {
 sub _setup_config {
     my $self = shift;
 
-    my $config = $self->plugin(yaml_config => {
-        file      => 'share/presizely.yml',
-        stash_key => 'conf',
-        class     => 'YAML::XS'
-    });
-
-    $self->{config} = $config;
+    $self->{config} = Presizely::Config->new->config;
 }
 
 sub _setup_helpers {

@@ -208,7 +208,8 @@ sub index {
             };
 
             if ( $@ ) {
-                # TODO: Return the original image instead of barking?
+                # TODO: Return the original image instead of barking? Maybe
+                #       make it a config option?
                 return $self->render(
                     status => 500,
                     text   => "Failed to apply transformations to image; " . $@,
