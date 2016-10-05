@@ -385,7 +385,7 @@ sub _render_image {
 
     # Cache control?
     if ( my $cache_control = $self->config->{output}->{cache_control} ) {
-        if ( my $max_age = $cache_control->{age} ) {
+        if ( my $max_age = $cache_control->{max_age} ) {
             $self->res->headers->cache_control( 'max-age=' . $max_age );
         }
     }
