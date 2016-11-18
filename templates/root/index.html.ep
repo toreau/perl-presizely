@@ -23,44 +23,44 @@
         <pre><code>http://presizely.no/http://example.com/image.jpg</code></pre>
 
         <h5>Auto height (aspect ratio preserved)</h5>
-        <p>One number to the left of an 'x' sets a specific width and calculates the height based on aspect ratio.</p>
+        <p>One number to the left of an <code>x</code> sets a specific width and calculates the height based on aspect ratio.</p>
         <pre><code>http://presizely.no/1024x/http://example.com/image.jpg</code></pre>
 
         <h5>Auto width (aspect ratio preserved)</h5>
-        <p>One number to the right of an 'x' sets a specific height and calculates the width based on aspect ratio.</p>
+        <p>One number to the right of an <code>x</code> sets a specific height and calculates the width based on aspect ratio.</p>
         <pre><code>http://presizely.no/x1024/http://example.com/image.jpg</code></pre>
 
         <h5>Exact width and height</h5>
-        <p>Two numbers separated by an 'x' resizes the image to the exact dimensions specified.</p>
+        <p>Two numbers separated by an <code>x</code> resizes the image to the exact dimensions specified.</p>
         <pre><code>http://presizely.no/1024x1024/http://example.com/image.jpg</code></pre>
 
         <p>You can also resize images based on a ratio. If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50&nbsp;% of its width, with aspect ratio preserved;</p>
         <pre><code>http://presizely.no/0.5x/http://example.com/image.jpg</code></pre>
 
         <h5>Rotation</h5>
-        <p>One number to the right of an 'r' rotates the image a specific number of degrees clockwise. Use a negative number to rotate anticlockwise.</p>
+        <p>One number to the right of an <code>r</code> rotates the image a specific number of degrees clockwise. Use a negative number to rotate anticlockwise.</p>
         <pre><code>http://presizely.no/r90/http://example.com/image.jpg</code></pre>
         <p><strong>NOTE!</strong> The background color for corners is at the moment set to white. It should be possible to choose the color, or transparency, and this will be rectified in a later version.</p>
 
         <h5>Cropping</h5>
-        <p>A set of numbers to the right of a `c` crops the image;</p>
+        <p>A set of numbers to the right of a <code>c</code> crops the image;</p>
         <pre><code>http://presizely.no/c1024x1024-0x0/http://example.com/image.jpg</code></pre>
         <p>The two first numbers are the width and the height of the "crop window", while the two last numbers are the x and y value for where you want the "crop window" to be positioned.</p>
 
         <h5>Black and white</h5>
-        <p>Use the 'bw' parameter to make the image black and white.</p>
+        <p>Use the <code>bw</code> parameter to make the image black and white.</p>
         <pre><code>http://presizely.no/bw/http://example.com/image.jpg</code></pre>
 
         <h5>Flipping</h5>
-        <p>Use the 'fh' and/or 'fv' parameter to flip the image horizontally and/or vertically, respectively.</p>
+        <p>Use the <code>fh</code> and/or <code>fv</code> parameter to flip the image horizontally and/or vertically, respectively.</p>
         <pre><code>http://presizely.no/fh,fv/http://example.com/image.jpg</code></pre>
 
         <h5>Quality (JPEG only)</h5>
-        <p>One number to the right of a 'q' changes the quality of the image.</p>
+        <p>One number to the right of a <code>q</code> changes the quality of the image.</p>
         <pre><code>http://presizely.no/q75/http://example.com/image.jpg</code></pre>
 
         <h5>Optimization (JPEG only)</h5>
-        <p>Use the 'o' parameter to optimize the <a href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a> tables. Compared to the other actions, this will have a bigger performance hit, depending on the image size.</p>
+        <p>Use the <code>o</code> parameter to optimize the <a href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a> tables. Compared to the other actions, this will have a bigger performance hit, depending on the image size.</p>
         <pre><code>http://presizely.no/o/http://example.com/image.jpg</code></pre>
 
         <h5>Drop shadow</h5>
