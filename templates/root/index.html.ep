@@ -23,19 +23,21 @@
         is that every subsequent request will return a cached version of the image.</p>
         <pre><code>http://presizely.no/http://example.com/image.jpg</code></pre>
 
-        <h5>Auto height (aspect ratio preserved)</h5>
+        <h5>Resizing</h5>
+
+        <h6>Auto height (aspect ratio preserved)</h6>
         <p>One number to the left of an <code>x</code> sets a specific width and calculates the height based on aspect ratio.</p>
         <pre><code>http://presizely.no/1024x/http://example.com/image.jpg</code></pre>
 
-        <h5>Auto width (aspect ratio preserved)</h5>
+        <h6>Auto width (aspect ratio preserved)</h6>
         <p>One number to the right of an <code>x</code> sets a specific height and calculates the width based on aspect ratio.</p>
         <pre><code>http://presizely.no/x1024/http://example.com/image.jpg</code></pre>
 
-        <h5>Exact width and height</h5>
+        <h6>Exact width and height</h6>
         <p>Two numbers separated by an <code>x</code> resizes the image to the exact dimensions specified.</p>
         <pre><code>http://presizely.no/1024x1024/http://example.com/image.jpg</code></pre>
 
-        <p>You can also resize images based on a ratio. If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50&nbsp;% of its width, with aspect ratio preserved;</p>
+        <p>If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50&nbsp;% of its width, with aspect ratio preserved;</p>
         <pre><code>http://presizely.no/0.5x/http://example.com/image.jpg</code></pre>
 
         <h5>Rotation</h5>

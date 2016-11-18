@@ -26,7 +26,9 @@ is that every subsequent request will return a cached version of the image.
 http://127.0.0.1:3000/http://example.com/image.jpg
 ```
 
-### Auto height (aspect ratio preserved)
+### Resizing
+
+#### Auto height (aspect ratio preserved)
 
 One number to the left of an `x` sets a specific width and calculates the height based on aspect ratio.
 
@@ -34,7 +36,7 @@ One number to the left of an `x` sets a specific width and calculates the height
 http://127.0.0.1:3000/1024x/http://example.com/image.jpg
 ```
 
-### Auto width (aspect ratio preserved)
+#### Auto width (aspect ratio preserved)
 
 One number to the right of an `x` sets a specific height and calculates the width based on aspect ratio.
 
@@ -42,7 +44,7 @@ One number to the right of an `x` sets a specific height and calculates the widt
 http://127.0.0.1:3000/x1024/http://example.com/image.jpg
 ```
 
-### Exact width and height
+#### Exact width and height
 
 Two numbers separated by an `x` resizes the image to the exact dimensions specified.
 
@@ -50,7 +52,7 @@ Two numbers separated by an `x` resizes the image to the exact dimensions specif
 http://127.0.0.1:3000/1024x1024/http://example.com/image.jpg
 ```
 
-You can also resize images based on a ratio. If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50 % of its width, with aspect ratio preserved;
+If any of the numbers explained above is a decimal number, it will be treated as a ratio. Here the image will be resized to 50 % of its width, with aspect ratio preserved;
 
 ```
 http://127.0.0.1:3000/0.5x/http://example.com/image.jpg
