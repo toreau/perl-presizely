@@ -142,6 +142,16 @@ sub index {
                 );
             }
 
+            # Crop?
+            if ( my $crop = $jobs->{crop} ) {
+                $imager = $imager->crop(
+                    width  => $crop->{width},
+                    height => $crop->{height},
+                    left   => $crop->{x},
+                    top    => $crop->{y},
+                );
+            }
+
             # Resize?
             if ( my $resize = $jobs->{resize} ) {
                 $imager = $self->_resize( $imager, $resize );
@@ -272,6 +282,14 @@ sub _get_jobs_from_param_str {
         }
         elsif ( $param =~ m/^o$/ ) {
             $jobs{optimize} = 1;
+        }
+        elsif ( $param =~ m/^c:(\d+)x(\d+)-(\d+)x(\d+)$/ ) {
+            $jobs{crop} = {
+                width  => $1,
+                height => $2,
+                x      => $3,
+                y      => $4,
+            };
         }
         else {
             $self->log->warn( "Skipping unknown parameter: " . $param );

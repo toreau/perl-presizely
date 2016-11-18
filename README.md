@@ -65,6 +65,16 @@ http://127.0.0.1:3000/r90/http://example.com/image.jpg
 
 **NOTE!** The background color for corners is at the moment set to white. It should be possible to choose the color, or transparency, and this will be rectified in a later version.
 
+### Cropping
+
+A set of numbers to the right of a `c:` crops the image;
+
+```
+http://127.0.0.1:3000/c:1024x1024-0x0/http://example.com/image.jpg
+```
+
+The two first numbers are the width and the height of the "crop window", while the two last numbers are the x and y value for where you want the "crop window" to be positioned.
+
 ### Black and white
 
 Use the `bw` parameter to make the image black and white.
@@ -99,7 +109,8 @@ http://127.0.0.1:3000/o/http://example.com/image.jpg
 
 ### Chaining
 
-It's possible to chain image actions by separating them with a comma. Please note that the actions will not necessarily be performed in the order they are mentioned, but resizing is always performed first.
+It's possible to chain image actions by separating them with a comma. Please note that cropping is always performed first, resizing is always performed second,
+while the other actions are performed in an arbitrary order.
 
 ```
 http://127.0.0.1:3000/1024x,q75,r90/http://example.com/image.jpg
@@ -112,10 +123,6 @@ If Presizely is given a URL to an HTML page, like a news article, it will look f
 ```
 http://127.0.0.1:3000/1024x,q75,r90/http://example.com/sports/article.html
 ```
-
-### Cropping
-
-*Coming soon...*
 
 ### Drop shadow
 
