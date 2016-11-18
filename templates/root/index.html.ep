@@ -43,8 +43,8 @@
         <p><strong>NOTE!</strong> The background color for corners is at the moment set to white. It should be possible to choose the color, or transparency, and this will be rectified in a later version.</p>
 
         <h5>Cropping</h5>
-        <p>A set of numbers to the right of a `c:` crops the image;</p>
-        <pre><code>http://presizely.no/c:1024x1024-0x0/http://example.com/image.jpg</code></pre>
+        <p>A set of numbers to the right of a `c` crops the image;</p>
+        <pre><code>http://presizely.no/c1024x1024-0x0/http://example.com/image.jpg</code></pre>
         <p>The two first numbers are the width and the height of the "crop window", while the two last numbers are the x and y value for where you want the "crop window" to be positioned.</p>
 
         <h5>Black and white</h5>

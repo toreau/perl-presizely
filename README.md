@@ -67,10 +67,10 @@ http://127.0.0.1:3000/r90/http://example.com/image.jpg
 
 ### Cropping
 
-A set of numbers to the right of a `c:` crops the image;
+A set of numbers to the right of a `c` crops the image;
 
 ```
-http://127.0.0.1:3000/c:1024x1024-0x0/http://example.com/image.jpg
+http://127.0.0.1:3000/c1024x1024-0x0/http://example.com/image.jpg
 ```
 
 The two first numbers are the width and the height of the "crop window", while the two last numbers are the x and y value for where you want the "crop window" to be positioned.

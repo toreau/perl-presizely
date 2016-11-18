@@ -283,7 +283,7 @@ sub _get_jobs_from_param_str {
         elsif ( $param =~ m/^o$/ ) {
             $jobs{optimize} = 1;
         }
-        elsif ( $param =~ m/^c:(\d+)x(\d+)-(\d+)x(\d+)$/ ) {
+        elsif ( $param =~ m/^c(\d+)x(\d+)-(\d+)x(\d+)$/ ) {
             $jobs{crop} = {
                 width  => $1,
                 height => $2,
