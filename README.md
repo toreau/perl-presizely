@@ -19,7 +19,8 @@ $ docker run -p 3000:3000 presizely
 
 ### Serve original image as-is
 
-The simplest way of using Presizely is to just hand it the URL to the original image without specifying any transformations.
+The simplest way of using Presizely is to just hand it the URL to the original image without specifying any transformations. The only advantage you get from this,
+is that every subsequent request will return a cached version of the image.
 
 ```
 http://127.0.0.1:3000/http://example.com/image.jpg

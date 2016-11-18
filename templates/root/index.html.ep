@@ -19,7 +19,8 @@
         <h3>Usage</h3>
 
         <h5>Serve original image as-is</h5>
-        <p>The simplest way of using Presizely is to just hand it the URL to the original image without specifying any transformations.</p>
+        <p>The simplest way of using Presizely is to just hand it the URL to the original image without specifying any transformations. The only advantage you get from this,
+        is that every subsequent request will return a cached version of the image.</p>
         <pre><code>http://presizely.no/http://example.com/image.jpg</code></pre>
 
         <h5>Auto height (aspect ratio preserved)</h5>

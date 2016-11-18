@@ -32,7 +32,6 @@
     <body>
         <div class="container">
           <%= content %>
-
           <div class="row">
               <div class="column">
                   <h3>Copyright</h3>
