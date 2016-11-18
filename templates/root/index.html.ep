@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="column" style="text-align: center;">
-        <img src="/1024x/<%= $image_url %>" class="centered">
+        <img src="/1024x/<%= $image_url %>" class="centered" style="width: 100%;">
         <p><a href="<%= $image_url %>">Image</a> resized from <%= $image_orig_size %> to a width of 1024 pixels with aspect ratio and quality preserved.</p>
         <pre><code>http://presizely.no/1024x/<%= $image_url %></code></pre>
     </div>

@@ -44,10 +44,6 @@ sub index {
             orig_size => '2,400 × 2,400',
         },
         {
-            url       => 'https://upload.wikimedia.org/wikipedia/commons/2/24/Wwii_woman_worker-edit.jpg',
-            orig_size => '7,373 × 5,679',
-        },
-        {
             url       => 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Esperanza_Station_02.jpg',
             orig_size => '4,988 × 2,835',
         },
