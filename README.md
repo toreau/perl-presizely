@@ -143,11 +143,12 @@ Presizely have two cache levels. First, the original image is cached. Second, th
 
 The two cache levels behaves the same, except that the most frequently accessed images (after transformation) are also stored in an in-memory L1 cache.
 
-### Limitations
+### Limitations and TODO
 
 * Original image can't be larger than 64MB, but this can be changed by setting the `MOJO_MAX_MESSAGE_SIZE` configuration variable to the max. number of bytes you want.
 * Only the most popular (...) image formats are supported; JPEG, PNG and GIF are safe bets.
-* Animated GIFs can be transformed, but only the first image in the animation will be returned at the moment.
+
+See also Presizely's [issues page on github](https://github.com/toreau/Presizely/issues) for more information.
 
 ## Performance
 
