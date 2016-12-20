@@ -110,6 +110,10 @@ Use the `o` parameter to optimize the Huffman coding tables. Compared to the oth
 http://127.0.0.1:3000/o/http://example.com/image.jpg
 ```
 
+### Progresssive (JPEG only)
+
+Use the `prog` parameter to convert JPEG images to progressive images. You can read more about progressive JPEGs [here](http://blog.patrickmeenan.com/2013/06/progressive-jpegs-ftw.html) and [here](https://optimus.keycdn.com/support/progressive-jpeg/).
+
 ### Chaining
 
 It's possible to chain image actions by separating them with a comma. Please note that cropping is always performed first, resizing is always performed second,
