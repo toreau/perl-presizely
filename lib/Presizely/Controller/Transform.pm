@@ -192,16 +192,29 @@ sub index {
                 $imager = $imager->convert( preset => 'grey' );
             }
 
-            # Optimize?
+            # JPEG only: Optimize?
             my $optimize = 0;
 
-            if ( my $o = $jobs->{optimize} ) {
+            if ( $jobs->{optimize} ) {
                 if ( $img_data->{format} eq 'jpeg' ) {
                     $self->log->debug( 'Optimizing image!' );
                     $optimize = 1;
                 }
                 else {
                     $self->log->warn( "Can't optimize '" . $img_data->{format} . "' images; skipping this action!" );
+                }
+            }
+
+            # JPEG only: Make progressive?
+            my $progressive = 0;
+
+            if ( $jobs->{progressive} ) {
+                if ( $img_data->{format} eq 'jpeg' ) {
+                    $self->log->debug( 'Making image progressive!' );
+                    $progressive = 1;
+                }
+                else {
+                    $self->log->warn( "Can't make images of type '" . $img_data->{format} . "' progressive; skipping this action!" );
                 }
             }
 
@@ -212,8 +225,9 @@ sub index {
                 type => $img_data->{format},
             );
 
-            push( @options, jpegquality   => $quality ) if ( $quality  );
-            push( @options, jpeg_optimize => 1        ) if ( $optimize );
+            push( @options, jpegquality      => $quality ) if ( $quality     );
+            push( @options, jpeg_optimize    => 1        ) if ( $optimize    );
+            push( @options, jpeg_progressive => 1        ) if ( $progressive );
 
             eval {
                 $imager->write( @options );
@@ -331,6 +345,9 @@ sub _get_jobs_from_param_str {
         }
         elsif ( $param =~ m/^fd$/ ) {
             $jobs{face_detection} = 1;
+        }
+        elsif ( $param =~ m/^prog$/ ) {
+            $jobs{progressive} = 1;
         }
         else {
             $self->log->warn( "Skipping unknown parameter: " . $param );
