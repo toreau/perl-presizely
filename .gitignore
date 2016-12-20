@@ -24,3 +24,5 @@ nytprof.out
 /Build.bat
 !META.json
 !LICENSE
+/test.pl
+/share/presizely_local.yml

@@ -6,6 +6,7 @@ requires 'FindBin';
 requires 'IO::Compress::Gzip';
 requires 'IO::Socket::SSL';
 requires 'Imager';
+requires 'MIME::Base64';
 requires 'Mojolicious';
 requires 'Mojolicious::Plugin::YamlConfig';
 requires 'Moose';

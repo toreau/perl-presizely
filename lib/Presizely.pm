@@ -7,18 +7,7 @@ use Presizely::Log;
 
 # ABSTRACT: Easy-to-use online service for transforming images.
 
-our $VERSION = '0.05';
-
-# TODO: hmac signatures.
-# TODO: Better "allowed hosts" functionality.
-# TODO: Consider Etag.
-# TODO: Allow _local configuration files.
-# TODO: Refactor the Transform controller.
-# TODO: Make "everything" non-blocking.
-# SOLVED: Cache transformed images after they have been delivered to the client.
-# SOLVED: Send correct Content-Type.
-# SOLVED: Max. cache size setting; see CHI's discard policy. (This can be set
-#         in the configuration file with the 'max_size' parameter.)
+our $VERSION = '0.06';
 
 sub startup {
     my $self = shift;

@@ -6,11 +6,12 @@ use namespace::autoclean;
 use CHI;
 use Digest::SHA qw( sha384_hex );
 use Imager;
+use MIME::Base64;
+use Mojo::IOLoop::Subprocess;
 use Mojo::URL;
 use Mojo::UserAgent;
 use Text::Glob qw( match_glob );
 use Time::HiRes qw( gettimeofday tv_interval );
-use Mojo::IOLoop::Subprocess;
 
 has 'ua' => (
     isa => 'Mojo::UserAgent',
@@ -204,7 +205,8 @@ sub index {
                 }
             }
 
-            # Done!
+            # Write the finalized image (and do JPEG stuff, if necessary).
+            # TODO: Refactor this, because writing is done multiple places.
             my @options = (
                 data => \$img_data->{image},
                 type => $img_data->{format},
@@ -226,6 +228,42 @@ sub index {
                 );
             }
 
+            # Face detection?
+            if ( $jobs->{face_detection} ) {
+                if ( my $json = $self->_get_google_vision_data($img_data->{image}) ) {
+                    foreach my $annotation ( @{$json->{responses}->[0]->{faceAnnotations}} ) {
+                        foreach ( qw(boundingPoly fdBoundingPoly) ) {
+                            my $vertices = $annotation->{$_}->{vertices};
+
+                            my $min_x = -1;
+                            my $max_x = -1;
+                            my $min_y = -1;
+                            my $max_y = -1;
+
+                            foreach ( @{$vertices} ) {
+                                $min_x = $_->{x} if ( $min_x == -1 || $_->{x} < $min_x );
+                                $max_x = $_->{x} if ( $max_x == -1 || $_->{x} > $max_x );
+                                $min_y = $_->{y} if ( $min_y == -1 || $_->{y} < $min_y );
+                                $max_y = $_->{y} if ( $max_y == -1 || $_->{y} > $max_y );
+                            }
+
+                            $imager->box( xmin => $min_x, xmax => $max_x, ymin => $min_y, ymax => $max_y, color => 'white' );
+                        }
+                    }
+
+                    # TODO: Refactor this, because writing is done multiple laces.
+                    @options = (
+                        data => \$img_data->{image},
+                        type => $img_data->{format},
+                    );
+
+                    eval {
+                        $imager->write( @options );
+                    };
+                }
+            }
+
+            # Done!
             $self->log->debug( "Transformed the image in " . tv_interval( $t0, [gettimeofday] ) . " seconds!" );
         }
 
@@ -290,6 +328,9 @@ sub _get_jobs_from_param_str {
                 x      => $3,
                 y      => $4,
             };
+        }
+        elsif ( $param =~ m/^fd$/ ) {
+            $jobs{face_detection} = 1;
         }
         else {
             $self->log->warn( "Skipping unknown parameter: " . $param );
@@ -425,6 +466,58 @@ sub _render_image {
         format => $img_data->{format},
         data   => $img_data->{image},
     );
+}
+
+sub _get_google_vision_data {
+    my $self  = shift;
+    my $image = shift;
+
+    my $service_url = 'https://vision.googleapis.com/v1/images:annotate';
+    my $api_key     = $self->config->{google_vision}->{api_key} // '';
+
+    unless ( length $api_key ) {
+        $self->log->warn( "Presizely was asked to do face detection, but the Google Vision API key is missing!" );
+        return {};
+    }
+
+    my $base64    = encode_base64( $image );
+    my $cache_key = Digest::SHA::sha384_hex( $base64 );
+    my $json      = $self->secondary_cache->get( $cache_key );
+
+    unless ( $json ) {
+        my %post = (
+            requests => [
+                {
+                    image => {
+                        content => $base64,
+                    },
+
+                    features => [
+                        {
+                            type => 'FACE_DETECTION',
+                            maxResults => $self->config->{google_vision}->{face_detection}->{max_results},
+                        },
+                    ],
+                },
+            ],
+        );
+
+        $json = $self->ua->post( $service_url . '?key=' . $api_key, json => \%post )->res->json;
+
+        if ( $json ) {
+            Mojo::IOLoop->subprocess(
+                sub {
+                    $self->secondary_cache->set( $cache_key, $json );
+                },
+
+                sub {
+                    # No need to do anything
+                },
+            );
+        }
+    }
+
+    return $json;
 }
 
 # The End
