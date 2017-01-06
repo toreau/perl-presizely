@@ -265,7 +265,7 @@ sub index {
                         }
                     }
 
-                    # TODO: Refactor this, because writing is done multiple laces.
+                    # TODO: Refactor this, because writing is done multiple places.
                     @options = (
                         data => \$img_data->{image},
                         type => $img_data->{format},
