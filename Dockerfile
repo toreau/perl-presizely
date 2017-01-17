@@ -29,11 +29,11 @@ ENV PERL_CPANM_OPT --quiet --no-man-pages --skip-satisfied
 RUN cpanm --notest --installdeps .
 
 # Install internal deps
-RUN cpanm --notest --with-feature=own --installdeps .
+# RUN cpanm --notest --with-feature=own --installdeps .
 
 # Bust the cache and reinstall internal deps
-ADD https://www.random.org/strings/?num=16&len=16&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new /tmp/CACHEBUST
-RUN cpanm --with-feature=own --reinstall --installdeps .
+# ADD https://www.random.org/strings/?num=16&len=16&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new /tmp/CACHEBUST
+# RUN cpanm --with-feature=own --reinstall --installdeps .
 
 COPY . .
 

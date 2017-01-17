@@ -121,6 +121,10 @@ sub index {
             };
 
             if ( $@ || !$imager ) {
+                if ( $@ ) {
+                    $self->log->error( $@ );
+                }
+
                 # Delete from caches.
                 $self->primary_cache->remove( $primary_cache_key );
                 $self->secondary_cache->remove( $secondary_cache_key );
@@ -407,29 +411,32 @@ sub _get_img_data_from_url {
 
     my $response = $self->_get_response_from_url( $url );
 
-    if ( ($response->headers->content_type // '') =~ m,text/html,i ) {
-        $self->log->debug( "Got HTML, so going to look for an image in the DOM tree..." );
+    if ( $response->is_success ) {
+        # If we got HTML back, try to parse it for og/twitter image URL.
+        if ( ($response->headers->content_type // '') =~ m,text/html,i ) {
+            $self->log->debug( "Got HTML, so going to look for an image in the DOM tree..." );
 
-        my $dom = $response->dom;
+            my $dom = $response->dom;
 
-        $response = undef;
+            $response = undef;
 
-        my $meta = $dom->at( 'meta[property="og:image"]' ) || $dom->at( 'meta[property="twitter:image"]' );
+            my $meta = $dom->at( 'meta[property="og:image"]' ) || $dom->at( 'meta[property="twitter:image"]' );
 
-        if ( $meta ) {
-            if ( my $content = $meta->attr('content') ) {
-                if ( $content =~ m,^//.+, ) {
-                    $content = 'http:' . $content;
+            if ( $meta ) {
+                if ( my $content = $meta->attr('content') ) {
+                    if ( $content =~ m,^//.+, ) {
+                        $content = 'http:' . $content;
+                    }
+
+                    $self->log->debug( 'Found this image URL in the HTML: ' . $content );
+
+                    $response = $self->_get_response_from_url( $content );
                 }
-
-                $self->log->debug( 'Found this image URL in the HTML: ' . $content );
-
-                $response = $self->_get_response_from_url( $content );
             }
         }
     }
 
-    return ( defined $response ) ? $response->body : undef;
+    return ( defined $response && $response->is_success ) ? $response->body : undef;
 }
 
 sub _host_is_allowed {

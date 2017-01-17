@@ -27,11 +27,11 @@ cache:
         expires_in: 1 year
 
 ua:
-    connect_timeout: 15
-    inactivity_timeout: 15
-    request_timeout: 30
-    max_redirects: 2
-    max_connections: 16
+    connect_timeout: 30
+    inactivity_timeout: 30
+    request_timeout: 60
+    max_redirects: 3
+    max_connections: 32
     MOJO_MAX_MESSAGE_SIZE: 67108864
 
 imager:
