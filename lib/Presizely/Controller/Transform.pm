@@ -333,10 +333,10 @@ sub _get_jobs_from_param_str {
         elsif ( $param =~ m/^f(h|v)$/ ) {
             $jobs{flip} = $1;
         }
-        elsif ( $param =~ m/^bw$/ ) {
+        elsif ( $param eq 'bw' ) {
             $jobs{black_and_white} = 1;
         }
-        elsif ( $param =~ m/^o$/ ) {
+        elsif ( $param eq 'o' ) {
             $jobs{optimize} = 1;
         }
         elsif ( $param =~ m/^c(\d+)x(\d+)-(\d+)x(\d+)$/ ) {
@@ -347,14 +347,17 @@ sub _get_jobs_from_param_str {
                 y      => $4,
             };
         }
-        elsif ( $param =~ m/^fd$/ ) {
+        elsif ( $param eq 'fd' ) {
             $jobs{face_detection} = 1;
         }
-        elsif ( $param =~ m/^prog$/ ) {
+        elsif ( $param eq 'prog' ) {
             $jobs{progressive} = 1;
         }
+        elsif ( $param eq 'json' ) {
+            $jobs{json} = 1;
+        }
         else {
-            $self->log->warn( "Skipping unknown parameter: " . $param );
+            $self->log->warn( "Skipping unknown job parameter: " . $param );
         }
     }
 

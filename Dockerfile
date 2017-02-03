@@ -39,4 +39,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ./script/presizely prefork -m production -w 16 -c 2
+CMD ./script/presizely prefork -w 16 -c 2
