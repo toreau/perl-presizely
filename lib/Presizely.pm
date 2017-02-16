@@ -7,7 +7,7 @@ use Presizely::Log;
 
 # ABSTRACT: Easy-to-use online service for transforming images.
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 sub startup {
     my $self = shift;

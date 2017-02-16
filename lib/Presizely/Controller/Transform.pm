@@ -222,6 +222,16 @@ sub index {
                 }
             }
 
+            # Sharpen?
+            if ( $jobs->{sh} ) {
+                $self->log->debug( 'Sharpening the image!' );
+
+                $imager->filter(
+                    type => 'conv',
+                    coef => [ -2, 10, -2 ],
+                );
+            }
+
             # Write the finalized image (and do JPEG stuff, if necessary).
             # TODO: Refactor this, because writing is done multiple places.
             my @options = (
@@ -353,8 +363,8 @@ sub _get_jobs_from_param_str {
         elsif ( $param eq 'prog' ) {
             $jobs{progressive} = 1;
         }
-        elsif ( $param eq 'json' ) {
-            $jobs{json} = 1;
+        elsif ( $param eq 'sh' ) {
+            $jobs{sh} = 1;
         }
         else {
             $self->log->warn( "Skipping unknown job parameter: " . $param );

@@ -16,7 +16,7 @@ requires 'Time::HiRes';
 requires 'YAML::XS';
 
 on build => sub {
-    requires 'ExtUtils::MakeMaker', '6.59';
+    requires 'ExtUtils::MakeMaker';
     requires 'Image::Size';
     requires 'Module::Install';
     requires 'Test::Mojo';
