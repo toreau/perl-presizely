@@ -196,16 +196,6 @@ sub index {
                 $imager = $imager->convert( preset => 'grey' );
             }
 
-            # Sharpen?
-            if ( $jobs->{sh} ) {
-                $self->log->debug( 'Sharpening the image!' );
-
-                $imager->filter(
-                    type => 'conv',
-                    coef => [ -2, 10, -2 ],
-                );
-            }
-
             # JPEG only: Optimize?
             my $optimize = 0;
 
@@ -230,6 +220,16 @@ sub index {
                 else {
                     $self->log->warn( "Can't make images of type '" . $img_data->{format} . "' progressive; skipping this action!" );
                 }
+            }
+
+            # Sharpen?
+            if ( $jobs->{sh} ) {
+                $self->log->debug( 'Sharpening the image!' );
+
+                $imager->filter(
+                    type => 'conv',
+                    coef =>  [ -2, 10, -2 ],
+                );
             }
 
             # Write the finalized image (and do JPEG stuff, if necessary).
@@ -371,7 +371,7 @@ sub _get_jobs_from_param_str {
         }
     }
 
-    return \%jobs;
+    return ( keys %jobs ) ? \%jobs : undef;
 }
 
 sub _resize {
